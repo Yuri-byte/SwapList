@@ -157,37 +157,27 @@ bool List::swap(ListEntry a, ListEntry b)
   }
   // criação das variáveis
   ListPointer currentA = head;
-  long posA = 1;
   ListPointer currentB = head;
-  long posB = 1;
   ListPointer beforeA = head;
   ListPointer beforeB = head;
 
   ListPointer aux;
 
+  char flag = 'F';
+
   int n = 1;
+  /* Percorre a lista e seleciona os valores utilizados na função*/
   while( n <= count ){
-    // //debugging session
-    // cout << "-------->>  n = " << n << "<<--------" << endl;
-    // cout << "currentA = " << currentA->entry << endl;
-    // cout << "beforeA  = " << beforeA->entry << endl;
-    // cout << "currentB = " << currentB->entry << endl;
-    // cout << "beforeB  = " << beforeB->entry << endl;
-    // cout << endl;
-    // system("pause");
-    // //actual code
     if( currentA->entry != a){
       currentA = currentA->nextNode;
-      posA++;
     }
     if( currentB->entry != b){
       currentB = currentB->nextNode;
-      posB++;
     }
     if( beforeA->nextNode != currentA && beforeA != currentA){
       beforeA = beforeA->nextNode;
     }
-    if( beforeB->nextNode != currentB){
+    if( beforeB->nextNode != currentB && beforeB != currentB){
       beforeB = beforeB->nextNode;
     }
     n++;
@@ -201,25 +191,39 @@ bool List::swap(ListEntry a, ListEntry b)
     cout << "Valor " << b << " nao encontrado na lista" << endl;
     return false;
   }
-  // Só não funciona para o caso adjacente ou primeiro da lista
-  if(beforeA != currentA) beforeA->nextNode = currentB;
-  if(beforeB != currentB) beforeB->nextNode = currentA;
+
+  /* Verifica se A é o primeiro nó da lista*/
+  if(currentA != head){ 
+    /* caso não seja, o nó anterior a A passa a apontar para B*/
+    beforeA->nextNode = currentB;
+  }else{ 
+    /* caso A seja o primeiro da lista*/
+    flag = 'A';
+  }
+  /* Verifica se B é o primeiro nó da lista*/
+  if(currentB != head) {
+    /* caso não seja, o nó anterior a B passa a apontar para A*/
+    beforeB->nextNode = currentA;
+  }else{
+    /* caso B seja o primeiro da lista*/
+    flag = 'B';
+  }
+
+  switch (flag) 
+  { 
+    case 'A':
+      head = currentB; // caso A seja o início da lista -> head se torna B
+    break;
+
+    case 'B':
+      head = currentA; // caso B seja o início da lista -> head se torna A
+    break;
+
+    default:
+    break;
+  }
 
   aux = currentA->nextNode;
   currentA->nextNode = currentB->nextNode;
   currentB->nextNode = aux;
-
-  cout << "currentA->entry = " << currentA->entry << endl;
-  cout << "currentA->nextNode = " << currentA->nextNode->entry << endl;
-  cout << endl;
-  cout << "beforeA->entry  = " << beforeA->entry << endl;
-  cout << "beforeA->nextNode  = " << beforeA->nextNode->entry << endl;
-  cout << endl;
-  cout << "currentB->entry = " << currentB->entry << endl;
-  cout << "currentB->nextNode = " << currentB->nextNode->entry << endl;
-  cout << endl;
-  cout << "beforeB->entry  = " << beforeB->entry << endl;
-  cout << "beforeB->nextNode  = " << beforeB->nextNode->entry << endl;
-  cout << endl;
-  system("pause");
 }

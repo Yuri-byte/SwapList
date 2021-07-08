@@ -10,11 +10,12 @@ int main()
   l.insert(3,8);
   l.insert(4,5);
   l.insert(5,2);
-  cout << "Antes swap(3,8)" << endl;
+  cout << "Antes swap" << endl;
   cout << "Lista: " << l.toString() << endl;
   cout << "Nos..: " << l.toStringAddr() << endl;
-  l.swap(3,8);
-  cout << "Apos swap(3,8)" << endl;
+  system("pause");
+  l.swap(2, 8);
+  cout << "Apos swap" << endl;
   cout << "Lista: " << l.toString() << endl;
   cout << "Nos..: " << l.toStringAddr() << endl;
 
