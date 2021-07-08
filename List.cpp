@@ -151,75 +151,75 @@ long long List::getAddr(ListEntry x)
 //---------------------------------------------------------------
 bool List::swap(ListEntry a, ListEntry b)
 { // sua implementacao vem aqui
-
-  long Aposition;
-  long Bposition;
-
-  ListPointer currentA;
-  ListPointer currentB;
-
-  ListPointer auxA;
-  ListPointer auxB;
-
-  if(size() == 0 || size() == 1 || a == b){
+  // verifica se a lista é vazia ou tem 1 elemento ou se a == b
+  if(size() == 1 || a == b || empty()){
     return false;
   }
+  // criação das variáveis
+  ListPointer currentA = head;
+  long posA = 1;
+  ListPointer currentB = head;
+  long posB = 1;
+  ListPointer beforeA = head;
+  ListPointer beforeB = head;
 
-  if(size() >= 2){
-    if(search(a) == 0 && search(b) == 0){
-      return false;
-    }else{
+  ListPointer aux;
 
-      /* Pro caso de eles estarem no meio da lista e nao serem adjacentes */
-      /* Ta funcionando*/
-
-        Aposition = search(a);
-        Bposition = search(b);
-
-        setPosition(Aposition, currentA); 
-        setPosition(Bposition, currentB);
-
-        /* Verifica se A ou B não é o final da lista ou o inicio ou se são adjacentes */
-        if((currentA->nextNode != NULL || currentB->nextNode != NULL) && 
-          (currentA->nextNode != currentB || currentB->nextNode != currentA) &&
-          (Aposition > 1 || Bposition > 1)){
-
-          /* Caso A esteja antes de B */
-          if(Aposition < Bposition){
-            ListPointer afterA, beforeA, afterB, beforeB;
-
-            setPosition(Aposition-1, beforeA); 
-            setPosition(Aposition+1, afterA); 
-
-            setPosition(Bposition+1, afterB);
-            setPosition(Bposition-1, beforeB);
-
-            currentA->nextNode = currentB->nextNode;
-            currentB->nextNode = afterA;
-            beforeA->nextNode = beforeB->nextNode;
-            beforeB->nextNode = currentA;
-          }else{/* Caso B esteja antes de A */
-            ListPointer beforeB, afterB, beforeA;
-
-            setPosition(Aposition-1, beforeA); 
-
-            setPosition(Bposition+1, afterB);
-            setPosition(Bposition-1, beforeB);
-
-            beforeB->nextNode = currentA;
-            currentB->nextNode = currentA->nextNode;
-            currentA->nextNode = afterB;
-            beforeA->nextNode = currentB;
-          }
-         
-        /* ****************************************************************** */
-        }else if(5<6){/* Nao sao adjacentes e os dois estao nas pontas */
-
-        }
-
-
-
-    } 
+  int n = 1;
+  while( n <= count ){
+    // //debugging session
+    // cout << "-------->>  n = " << n << "<<--------" << endl;
+    // cout << "currentA = " << currentA->entry << endl;
+    // cout << "beforeA  = " << beforeA->entry << endl;
+    // cout << "currentB = " << currentB->entry << endl;
+    // cout << "beforeB  = " << beforeB->entry << endl;
+    // cout << endl;
+    // system("pause");
+    // //actual code
+    if( currentA->entry != a){
+      currentA = currentA->nextNode;
+      posA++;
+    }
+    if( currentB->entry != b){
+      currentB = currentB->nextNode;
+      posB++;
+    }
+    if( beforeA->nextNode != currentA && beforeA != currentA){
+      beforeA = beforeA->nextNode;
+    }
+    if( beforeB->nextNode != currentB){
+      beforeB = beforeB->nextNode;
+    }
+    n++;
   }
+
+  if(currentA->entry != a) {
+    cout << "Valor " << a << " nao encontrado na lista" << endl;
+    return false;
+  }
+  if(currentB->entry != b) {
+    cout << "Valor " << b << " nao encontrado na lista" << endl;
+    return false;
+  }
+  // Só não funciona para o caso adjacente ou primeiro da lista
+  if(beforeA != currentA) beforeA->nextNode = currentB;
+  if(beforeB != currentB) beforeB->nextNode = currentA;
+
+  aux = currentA->nextNode;
+  currentA->nextNode = currentB->nextNode;
+  currentB->nextNode = aux;
+
+  cout << "currentA->entry = " << currentA->entry << endl;
+  cout << "currentA->nextNode = " << currentA->nextNode->entry << endl;
+  cout << endl;
+  cout << "beforeA->entry  = " << beforeA->entry << endl;
+  cout << "beforeA->nextNode  = " << beforeA->nextNode->entry << endl;
+  cout << endl;
+  cout << "currentB->entry = " << currentB->entry << endl;
+  cout << "currentB->nextNode = " << currentB->nextNode->entry << endl;
+  cout << endl;
+  cout << "beforeB->entry  = " << beforeB->entry << endl;
+  cout << "beforeB->nextNode  = " << beforeB->nextNode->entry << endl;
+  cout << endl;
+  system("pause");
 }
-//---------------------------------------------------------------
