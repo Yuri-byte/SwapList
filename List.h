@@ -1,8 +1,8 @@
 /*
  * List.h
  *
- *  Created on:
- *      Author:
+ *  Created on: 12/07/2021
+ *  Author: Yuri Schwab 11273851
  */
 
 #ifndef LIST_H

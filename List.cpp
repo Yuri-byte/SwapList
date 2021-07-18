@@ -1,11 +1,8 @@
 /*
-*Nome: Yuri Schwab
-*Nºusp: 11273851
-*
  * List.cpp
  *
- *  Created on:
- *      Author:
+ *  Created on: 12/07/2021
+ *  Author: Yuri Schwab 11273851
  */
 #include "List.h"
 //---------------------------------------------------------------
@@ -196,21 +193,21 @@ bool List::swap(ListEntry a, ListEntry b)
   }
 
   /* Verifica se A é o primeiro nó da lista*/
-  if(currentA != head){ 
-    /* caso não seja, o nó anterior a A passa a apontar para B*/
-    beforeA->nextNode = currentB;
-  }else{ 
+  if(currentA == head){ 
     /* caso A seja o primeiro da lista*/
     flag = 'A';
+  }else{ 
+    /* caso não seja, o nó anterior a A passa a apontar para B*/
+    beforeA->nextNode = currentB;
   }
 
   /* Verifica se B é o primeiro nó da lista*/
-  if(currentB != head){
-    /* caso não seja, o nó anterior a B passa a apontar para A*/
-    beforeB->nextNode = currentA;
-  }else{
+  if(currentB == head){
     /* caso B seja o primeiro da lista*/
     flag = 'B';
+  }else{
+    /* caso não seja, o nó anterior a B passa a apontar para A*/
+    beforeB->nextNode = currentA;
   }
 
   switch (flag) 
@@ -227,9 +224,32 @@ bool List::swap(ListEntry a, ListEntry b)
     break;
   }
 
-  aux = currentA->nextNode;
-  currentA->nextNode = currentB->nextNode;
-  currentB->nextNode = aux; 
+  flag = 'F';
+  // verifica se algum dos nós é o último
+  if(currentA->nextNode || currentB->nextNode){
+    // se nenhum dos nós for o último
+    // realiza a troca de ponteiros normalmente
+    aux = currentA->nextNode;
+    currentA->nextNode = currentB->nextNode;
+    currentB->nextNode = aux; 
+  }else if( !currentA->nextNode ){
+    // se currentA for o último
+    // aponta nextNode de A para o atual nextNode de B
+    currentA->nextNode = currentB->nextNode;
+    flag = 'A';  
+  }else if( !currentB->nextNode ){
+    // se currentB for o último
+    // aponta nextNode de B para o atual nextNode de A
+    currentB->nextNode = currentA->nextNode;
+    flag = 'B';
+  }
+  // caso A seja o último nó
+  // B aponta para null
+  if(flag == 'A') currentB->nextNode = NULL;
+  
+  // caso B seja o último nó
+  // A aponta para null
+  if(flag == 'B') currentA->nextNode = NULL;
 
   return true;
 }
